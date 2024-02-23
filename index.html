@@ -1,10 +1,38 @@
 <label for="names">List of Names:</label>
+<br>
 <textarea id="names" name="names" rows="20" cols="50"></textarea>
 <br>
-<input type="button" value="Submit" onclick="msg()">
+<label for="sort">List of Names:</label>
+<br>
+<select name="sort" id="sort">
+  <option value="0">number of names per group</option>
+  <option value="1">number of groups</option>
+</select>
+<input type="number" id="number" name="number" min="1">
+<input type="button" value="Submit" onclick="sort()">
 
 <script>
-function msg() {
-  alert("Hello world!");
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+function sort() {
+  names = document.getElementById("names").value.split("\n")
+	shuffleArray(names)
+	num = document.getElementById("number").value
+  if(document.getElementById("sort").selectedIndex == 1) {
+		namesPerGroup = Math.floor(name.length/num)
+		groups = []
+    for(i=0;i<num;i++) {
+			
+    }
+  } else {
+    
+  }
 }
 </script>
