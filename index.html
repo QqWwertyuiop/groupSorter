@@ -1,16 +1,61 @@
-<label for="names">List of Names:</label>
-<br>
-<textarea id="names" name="names" rows="20" cols="50" required></textarea>
-<br>
-<label for="sort">Sorting Settings:</label>
-<br>
-<select name="sort" id="sort" required>
-  <option value="0">number of names per group</option>
-  <option value="1">number of groups</option>
-</select>
-<input type="number" id="number" name="number" min="1" required>
-<input type="button" value="Submit" onclick="sort()">
+<head>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,600;1,6..12,600&display=swap" rel="stylesheet">
+	
+	<style>
+		* {
+			color: rgb(255, 255, 255);
+			background-color:rgb(96, 96, 96);
+			font-family: "Nunito Sans", sans-serif;
+			text-align: center;
+			border: 4px;
+			border-radius: 8px;
+		}
 
+		body {
+			background-color:rgb(64, 64, 64);
+			padding: 32px;
+		}
+
+		label {
+			background-color: rgba(0, 0, 0, 0);
+			font-size: x-large;
+		}
+
+		p {
+			padding: 8px;
+		}
+
+		textarea, select, input {
+			font-size: medium;
+		}
+
+		#names {
+			width:100%;
+		}
+
+		#text {
+			font-size: medium;
+		}
+
+		::placeholder {
+			color:lightgray;
+		}
+	</style>
+</head>
+<body>
+	<label for="names"><p>List of Names:</p></label>
+	<p id="text" style="display: none;"></p>
+	<textarea id="names" name="names" rows="18" style="resize: none;" placeholder="If you are looking for the legacy version, type -1 in the sorting number box." required></textarea>
+	<label for="sort"><p>Sorting Settings:</p></label>
+	<select name="sort" id="sort" required>
+		<option value="0">number of names per group</option>
+		<option value="1">number of groups</option>
+	</select>
+	<input type="number" id="number" name="number" min="1" required>
+	<input type="button" value="Submit" onclick="sort()">
+</body>
 <script>
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -21,20 +66,38 @@ function shuffleArray(array) {
     }
 }
 
+var textarea = document.getElementById("names");
+
 function sort() {
-  names = document.getElementById("names").value.split("\n")
-	shuffleArray(names)
-	num = document.getElementById("number").value
-	namesPerGroup = 0
-	numGroups = 0
+  var names = document.getElementById("names").value.split("\n")
+	var boton = false;
+	if(names.includes("boston")) boton = true;
+	if(names.includes("Boston")) boton = true;
+	shuffleArray(names);
+	var num = document.getElementById("number").value
+	num = Math.round(num);
+	if(num == -1) {
+		window.location.href = "https://qqwwertyuiop.github.io/groupSorter/legacy.html";
+		return;
+	}
+	if(num <= 0) {
+		alert("Number must be a positive integer!");
+		return;
+	}
+	var namesPerGroup = 0;
+	var numGroups = 0;
   if(document.getElementById("sort").selectedIndex == 0) {
-		namesPerGroup = num
-		numGroups = Math.floor(names.length/num)
+		namesPerGroup = num;
+		numGroups = Math.floor(names.length/num);
   } else {
-    namesPerGroup = Math.floor(names.length/num)
-		numGroups = num
+    namesPerGroup = Math.floor(names.length/num);
+		numGroups = num;
   }
-	groups = []
+	if(numGroups > names.length) {
+		alert("Number of groups cannot exceed number of names!");
+		return;
+	}
+	var groups = [];
 	for(i=0; i<numGroups; i++) {
 		groups.push([])
 		for(j=0; j<namesPerGroup; j++) {
@@ -48,6 +111,14 @@ function sort() {
 	groups.forEach((element, i) => {
 		outStr += `Group ${i+1}: [${element.join(', ')}]\n`
 	});
-	alert(outStr)
+	if(boton) {
+		var img = document.createElement("IMG");
+		var imgs = ["majesty.png", "majesty.png", "majesty.png", "nerd.png"]
+		img.setAttribute("src", imgs[Math.floor(4*Math.random())]);
+		img.setAttribute("id", "boton")
+		document.body.insertBefore(img, document.body.children[0]);
+	}
+	document.getElementById("text").innerText = outStr;
+	document.getElementById("text").setAttribute("style", "display: block")
 }
 </script>

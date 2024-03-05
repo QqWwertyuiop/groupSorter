@@ -1,0 +1,53 @@
+<label for="names">List of Names:</label>
+<br>
+<textarea id="names" name="names" rows="20" cols="50" required></textarea>
+<br>
+<label for="sort">Sorting Settings:</label>
+<br>
+<select name="sort" id="sort" required>
+  <option value="0">number of names per group</option>
+  <option value="1">number of groups</option>
+</select>
+<input type="number" id="number" name="number" min="1" required>
+<input type="button" value="Submit" onclick="sort()">
+
+<script>
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+function sort() {
+  names = document.getElementById("names").value.split("\n")
+	shuffleArray(names)
+	num = document.getElementById("number").value
+	namesPerGroup = 0
+	numGroups = 0
+  if(document.getElementById("sort").selectedIndex == 0) {
+		namesPerGroup = num
+		numGroups = Math.floor(names.length/num)
+  } else {
+    namesPerGroup = Math.floor(names.length/num)
+		numGroups = num
+  }
+	groups = []
+	for(i=0; i<numGroups; i++) {
+		groups.push([])
+		for(j=0; j<namesPerGroup; j++) {
+			groups[i].push(names.pop())
+		}
+	}
+	names.forEach((element, i) => {
+		groups[i].push(element)
+	})
+	outStr = ""
+	groups.forEach((element, i) => {
+		outStr += `Group ${i+1}: [${element.join(', ')}]\n`
+	});
+	alert(outStr)
+}
+</script>
