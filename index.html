@@ -13,18 +13,19 @@
 			border-radius: 8px;
 		}
 
+		html {
+			display: flex;
+		}
+
 		body {
 			background-color:rgb(64, 64, 64);
-			padding: 32px;
+			padding: 24px;
+			flex-grow: 1;
 		}
 
 		label {
 			background-color: rgba(0, 0, 0, 0);
 			font-size: x-large;
-		}
-
-		p {
-			padding: 8px;
 		}
 
 		textarea, select, input {
@@ -35,26 +36,103 @@
 			width:100%;
 		}
 
+		:root {
+			--textHeightCurrent: 0px
+			--textHeightNew: 0px
+		}
+
+		@keyframes appear {
+			0% {
+				height: 0px;
+				color: transparent;
+				padding-top: 0px;
+				padding-bottom: 0px;
+			}
+			90% {
+				height: var(--textHeightNew);
+				color: rgba(255, 255, 255, 64);
+				padding-top: 9px;
+				padding-bottom: 9px;
+			}
+			100% {
+				height: var(--textHeightNew);
+				color:rgb(255, 255, 255);
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+		}
+
+		@keyframes appear {
+			from {
+				height: var(--textHeightCurrent);
+				color: rgb(255, 255, 255);
+			}
+			to {
+				height: var(--textHeightNew);
+				color:rgb(255, 255, 255);
+			}
+		}
+
+		.textAppear {
+			animation: appear 1s ease 0s 1 normal forwards;
+		}
+
+		.textTransition {
+			animation: transition 1s ease 0s 1 normal forwards;
+		}
+
+		.noPad {
+			padding: 0px;
+		}
+
 		#text {
 			font-size: medium;
+			width: 100%;
+			height: 0%;
+			color: transparent;
 		}
 
 		::placeholder {
 			color:lightgray;
 		}
+
+		#confetti {
+			background-color: transparent;
+		}
+
+		canvas {
+			background-color: transparent;
+		}
+
+		input {
+			width: min-content;
+		}
+
+		label {
+			width: 100%;
+			margin-bottom: 16px;
+		}
+
+		p {
+			padding-top: 10px;
+			padding-bottom: 10px;
+			margin: 0px;
+		}
 	</style>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
 </head>
-<body>
-	<label for="names"><p>List of Names:</p></label>
-	<p id="text" style="display: none;"></p>
-	<textarea id="names" name="names" rows="18" style="resize: none;" placeholder="If you are looking for the legacy version, type -1 in the sorting number box." required></textarea>
-	<label for="sort"><p>Sorting Settings:</p></label>
+<body style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+	<label for="names"><p>GroupSorter</p></label>
+	<p id="text" class="noPad"></p>
+	<textarea id="names" name="names" style="resize: none; flex-grow: 1;" placeholder="If you are looking for the legacy version, type -1 in the sorting number box." required></textarea>
+	<div style="width: 37.5%;">
 	<select name="sort" id="sort" required>
-		<option value="0">number of names per group</option>
-		<option value="1">number of groups</option>
+		<option value="0"> number of names per group </option>
+		<option value="1"> number of groups </option>
 	</select>
-	<input type="number" id="number" name="number" min="1" required>
-	<input type="button" value="Submit" onclick="sort()">
+	<input style="margin: 10px;" type="number" id="number" name="number" min="1" required>
+	</div>
+	<input style="font-size: x-large;" type="button" value="Submit" onclick="sort()">
 </body>
 <script>
 function shuffleArray(array) {
@@ -64,6 +142,10 @@ function shuffleArray(array) {
         array[i] = array[j];
         array[j] = temp;
     }
+}
+
+function randomInRange(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
 var textarea = document.getElementById("names");
@@ -118,7 +200,21 @@ function sort() {
 		img.setAttribute("id", "boton")
 		document.body.insertBefore(img, document.body.children[0]);
 	}
-	document.getElementById("text").innerText = outStr;
-	document.getElementById("text").setAttribute("style", "display: block")
+	var textElmt = document.getElementById("text")
+	textElmt.innerText = outStr;
+	document.querySelector(':root').style.setProperty('--textHeightCurrent', textElmt.clientHeight)
+	document.querySelector(':root').style.setProperty('--textHeightNew', groups.length*22 + 'px')
+	textElmt.classList.add("textAppear")
+
+	var posList = [0.125, 0.375, 0.625, 0.875]
+	posList.forEach(pos => {
+		confetti({
+			angle: 270,
+			spread: 75,
+			particleCount: 50,
+			origin: {x: pos, y: -0.25},
+			startVelocity: 50,
+		});
+	});
 }
 </script>
