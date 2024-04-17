@@ -62,7 +62,7 @@
 			}
 		}
 
-		@keyframes appear {
+		@keyframes transition {
 			from {
 				height: var(--textHeightCurrent);
 				color: rgb(255, 255, 255);
@@ -194,17 +194,33 @@ function sort() {
 		outStr += `Group ${i+1}: [${element.join(', ')}]\n`
 	});
 	if(boton) {
-		var img = document.createElement("IMG");
-		var imgs = ["majesty.png", "majesty.png", "majesty.png", "nerd.png"]
-		img.setAttribute("src", imgs[Math.floor(4*Math.random())]);
-		img.setAttribute("id", "boton")
-		document.body.insertBefore(img, document.body.children[0]);
+		//var img = document.createElement("IMG");
+		//var imgs = ["majesty.png", "majesty.png", "majesty.png", "nerd.png"]
+		//img.setAttribute("src", imgs[Math.floor(4*Math.random())]);
+		//img.setAttribute("id", "boton")
+		//document.body.insertBefore(img, document.body.children[0]);
 	}
 	var textElmt = document.getElementById("text")
 	textElmt.innerText = outStr;
-	document.querySelector(':root').style.setProperty('--textHeightCurrent', textElmt.clientHeight)
-	document.querySelector(':root').style.setProperty('--textHeightNew', groups.length*22 + 'px')
-	textElmt.classList.add("textAppear")
+	var noPad = textElmt.classList.contains("noPad")
+	var textAppear = textElmt.classList.contains("textAppear")
+	if(noPad) {
+		if(!textAppear) { // first iteration
+			document.querySelector(':root').style.setProperty('--textHeightNew', groups.length*22 + 'px')
+			textElmt.classList.add("textAppear")
+		} else { // second iteration
+			document.querySelector(':root').style.setProperty('--textHeightCurrent', textElmt.clientHeight - 20)
+			textElmt.classList.remove("noPad")
+			textElmt.classList.remove("textAppear")
+			document.querySelector(':root').style.setProperty('--textHeightNew', groups.length*22 + 'px')
+			textElmt.classList.add("textTransition")
+		}
+	} else {
+		document.querySelector(':root').style.setProperty('--textHeightCurrent', textElmt.clientHeight - 20)
+		textElmt.classList.remove("textTransition")
+		document.querySelector(':root').style.setProperty('--textHeightNew', groups.length*22 + 'px')
+		textElmt.classList.add("textTransition")
+	}	
 
 	var posList = [0.125, 0.375, 0.625, 0.875]
 	posList.forEach(pos => {
