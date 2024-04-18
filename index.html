@@ -13,14 +13,19 @@
 			border-radius: 8px;
 		}
 
-		html {
-			display: flex;
+		:root {
+			--textHeightCurrent: 0px
+			--textHeightNew: 0px
 		}
 
-		body {
-			background-color:rgb(64, 64, 64);
-			padding: 24px;
-			flex-grow: 1;
+		html body {
+			display: block;
+			height: 100%;
+			width: 100%;
+			padding: 0px;
+			margin: 0px;
+			border: 0px;
+			overflow-y: hidden;
 		}
 
 		label {
@@ -30,74 +35,6 @@
 
 		textarea, select, input {
 			font-size: medium;
-		}
-
-		#names {
-			width:100%;
-		}
-
-		:root {
-			--textHeightCurrent: 0px
-			--textHeightNew: 0px
-		}
-
-		@keyframes appear {
-			0% {
-				height: 0px;
-				color: transparent;
-				padding-top: 0px;
-				padding-bottom: 0px;
-			}
-			90% {
-				height: var(--textHeightNew);
-				color: rgba(255, 255, 255, 64);
-				padding-top: 9px;
-				padding-bottom: 9px;
-			}
-			100% {
-				height: var(--textHeightNew);
-				color:rgb(255, 255, 255);
-				padding-top: 10px;
-				padding-bottom: 10px;
-			}
-		}
-
-		@keyframes transition {
-			from {
-				height: var(--textHeightCurrent);
-				color: rgb(255, 255, 255);
-			}
-			to {
-				height: var(--textHeightNew);
-				color:rgb(255, 255, 255);
-			}
-		}
-
-		.textAppear {
-			animation: appear 1s ease 0s 1 normal forwards;
-		}
-
-		.textTransition {
-			animation: transition 1s ease 0s 1 normal forwards;
-		}
-
-		.noPad {
-			padding: 0px;
-		}
-
-		#text {
-			font-size: medium;
-			width: 100%;
-			height: 0%;
-			color: transparent;
-		}
-
-		::placeholder {
-			color:lightgray;
-		}
-
-		#confetti {
-			background-color: transparent;
 		}
 
 		canvas {
@@ -118,119 +55,303 @@
 			padding-bottom: 10px;
 			margin: 0px;
 		}
+
+		img {
+			background: transparent;
+		}
+		
+		div {
+			background-color:rgb(64, 64, 64);
+		}
+
+		a {
+			text-decoration: none;
+			align-content: center;
+		}
+
+		.hoverable:hover {
+			background-color: rgb(128, 128, 128);
+		}
+
+		#main {
+			margin: 12px;
+			padding: 24px;
+			height: calc(100% - 106px);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 10px;
+		}
+
+		#footer {
+			width: 100%;
+			align-content: center;
+		}
+
+		#names {
+			width:100%;
+			resize: none;
+		}
+
+		#text {
+			font-size: medium;
+			width: 100%;
+			height: 0%;
+			color: transparent;
+			padding-top: 0px;
+			padding-bottom: 0px;
+		}
+
+		::placeholder {
+			color:lightgray;
+		}
+
+		#confetti {
+			background-color: transparent;
+		}
+
+		#rollerText {
+			margin: 0px;
+			padding: 12px 0px 0px 0px;
+			overflow: hidden;
+			height: 22px;
+		}
+
+		@keyframes fadeAway {
+			from {opacity: 0.65;}
+			to {opacity: 0.0;}
+		}
+
+		#boton {
+			position: fixed;
+			top: 0px;
+			bottom: 0px;
+			left: 0px;
+			right: 0px;
+			margin-top: auto;
+			margin-bottom: auto;
+			margin-left: auto;
+			margin-right: auto;
+			opacity: 0.65;
+			animation-name: fadeAway;
+			animation-duration: 0.75s;
+			animation-delay: 1.75s;
+			animation-fill-mode: forwards;
+			animation-play-state: running;
+			animation-iteration-count: 1;
+			animation-timing-function: ease-out;
+		}
 	</style>
 	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
 </head>
-<body style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-	<label for="names"><p>GroupSorter</p></label>
-	<p id="text" class="noPad"></p>
-	<textarea id="names" name="names" style="resize: none; flex-grow: 1;" placeholder="If you are looking for the legacy version, type -1 in the sorting number box." required></textarea>
-	<div style="width: 37.5%;">
-	<select name="sort" id="sort" required>
-		<option value="0"> number of names per group </option>
-		<option value="1"> number of groups </option>
-	</select>
-	<input style="margin: 10px;" type="number" id="number" name="number" min="1" required>
+
+<body>
+	<p id="rollerText">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dui nunc, posuere quis ultrices a, hendrerit vel justo. Nulla lectus elit, aliquam luctus nisi sit amet, iaculis pulvinar nisi. Aenean eget arcu vitae urna congue imperdiet. Aenean pellentesque gravida sapien, eu pretium nibh pulvinar ut. Nunc euismod dapibus arcu sed tristique. Pellentesque dignissim ut ligula eget molestie. Pellentesque id dolor porttitor nunc rutrum facilisis eget quis tortor. Vestibulum sollicitudin sollicitudin diam, at ultricies orci. Quisque sapien ipsum, suscipit porta facilisis sed, vulputate condimentum leo. Quisque odio justo, lacinia eu pulvinar ut, rutrum nec mauris. Cras ac cursus nisl. Nulla eu eros diam. Aenean tincidunt tempus dapibus. Sed id turpis non tortor mollis volutpat eget laoreet ex. Cras interdum volutpat velit, quis lobortis erat posuere id. Quisque ac justo ac velit lobortis elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et risus diam. Suspendisse aliquet consequat orci. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque eget varius justo. In tempus est vitae posuere porttitor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec mauris felis, vestibulum sit amet odio at, commodo tempus ante. Mauris sed nunc eu lectus iaculis iaculis lacinia quis ligula. Phasellus eu tortor ac libero lacinia maximus quis sed mauris. Nunc et hendrerit quam. Donec sed lacinia libero. Aliquam dapibus urna in odio vestibulum, tempus scelerisque justo ultrices. Maecenas id nisl orci. Donec ligula ipsum, laoreet id dapibus et, facilisis a metus. Integer ultrices pretium magna, id lobortis augue cursus vitae. Praesent ligula metus, iaculis vel porttitor nec, sodales non justo. Vestibulum eu fringilla lacus. Phasellus dignissim ultricies dolor, in luctus libero interdum at. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut quis elementum nisl. Vivamus vel laoreet nisi. Etiam rhoncus fermentum turpis, in auctor elit viverra vel. Suspendisse eu finibus quam.	Cras sagittis nunc odio, a condimentum ligula placerat id. Pellentesque condimentum, lorem vel malesuada facilisis, ex nulla lacinia diam, eu convallis turpis neque in erat. Sed cursus in erat vel semper. Nulla vehicula laoreet mollis. Morbi at feugiat ex. Vestibulum faucibus orci sem, a sodales mauris fringilla quis. Vivamus et neque odio. Mauris volutpat ex mauris, in placerat risus dictum vitae. Etiam bibendum luctus nulla lobortis iaculis. Cras ornare nisi urna. Duis quis accumsan tellus. Duis luctus at quam id efficitur. Phasellus ac nisl ut tortor aliquam vestibulum eu sit amet magna. Mauris posuere neque sed odio posuere finibus.</p>
+	<div id="main">
+		<label for="names"><p>GroupSorter</p></label>
+		<p id="text"></p>
+		<textarea id="names" name="names" style="flex-grow: 1;" placeholder="&#10;Enter the names to be picked from here." required></textarea>
+		<div style="width: fit-content; padding-left: 8px; background-color: rgb(96, 96, 96); align-content: center;">
+		<select name="sort" id="sort" required>
+			<option value="0"> Names per Group </option>
+			<option value="1"> Total Groups </option>
+		</select>
+		<input style="margin: 10px;" type="number" id="number" name="number" min="1" required>
+		</div>
+		<div id="footer">
+			<a style="height: 48px; background: transparent; float: left;" title="Visit on GitHub" href="https://github.com/QqWwertyuiop/groupSorter" aria-label="View source on Github">
+				<img src="github-mark-white.png" height="36px" style="padding: 6px;">
+			</a>
+			<a class="hoverable" style="height: 24px; margin: 6px; padding: 6px; float: left;" href="https://qqwwertyuiop.github.io/groupSorter/legacy.html">Legacy Version</a>
+			<input class="hoverable" style="font-size: x-large; height: 36px; margin: 6px; padding-left: 6px; padding-right: 6px; position: fixed; right: calc(50% - 48px);" type="button" value="Submit" onclick="sort()">
+		</div>
 	</div>
-	<input style="font-size: x-large;" type="button" value="Submit" onclick="sort()">
 </body>
+
 <script>
 function shuffleArray(array) {
+	for(let run = 0; run < 3; run++) {
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         var temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
+	}
 }
 
 function randomInRange(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+const imgs = ["majesty.png", "majesty.png", "majesty.png", "nerd.png", "empty.jpg", "even_higher_blood_pressure.jpg", "high_blood_pressure.webp", "professional.webp", "shock.jpg", "slep.heic", "terrorized.heic"];
+var currentImgRoll = [...imgs];
+shuffleArray(currentImgRoll);
+var currentRoll = "";
+var rollIncrement = 0;
+const roller = setInterval(() => {
+
+}, 100);
+
 var textarea = document.getElementById("names");
+var textElmt = document.getElementById("text");
+var rootStyle = document.querySelector(':root');
+var oldLineCount = 0;
 
 function sort() {
-  var names = document.getElementById("names").value.split("\n")
-	var boton = false;
-	if(names.includes("boston")) boton = true;
-	if(names.includes("Boston")) boton = true;
-	shuffleArray(names);
-	var num = document.getElementById("number").value
-	num = Math.round(num);
-	if(num == -1) {
-		window.location.href = "https://qqwwertyuiop.github.io/groupSorter/legacy.html";
-		return;
-	}
-	if(num <= 0) {
-		alert("Number must be a positive integer!");
-		return;
-	}
-	var namesPerGroup = 0;
-	var numGroups = 0;
-  if(document.getElementById("sort").selectedIndex == 0) {
-		namesPerGroup = num;
-		numGroups = Math.floor(names.length/num);
-  } else {
-    namesPerGroup = Math.floor(names.length/num);
-		numGroups = num;
-  }
-	if(numGroups > names.length) {
-		alert("Number of groups cannot exceed number of names!");
-		return;
-	}
-	var groups = [];
-	for(i=0; i<numGroups; i++) {
-		groups.push([])
-		for(j=0; j<namesPerGroup; j++) {
-			groups[i].push(names.pop())
-		}
-	}
-	names.forEach((element, i) => {
-		groups[i].push(element)
-	})
-	outStr = ""
-	groups.forEach((element, i) => {
-		outStr += `Group ${i+1}: [${element.join(', ')}]\n`
-	});
-	if(boton) {
-		//var img = document.createElement("IMG");
-		//var imgs = ["majesty.png", "majesty.png", "majesty.png", "nerd.png"]
-		//img.setAttribute("src", imgs[Math.floor(4*Math.random())]);
-		//img.setAttribute("id", "boton")
-		//document.body.insertBefore(img, document.body.children[0]);
-	}
-	var textElmt = document.getElementById("text")
-	textElmt.innerText = outStr;
-	var noPad = textElmt.classList.contains("noPad")
-	var textAppear = textElmt.classList.contains("textAppear")
-	if(noPad) {
-		if(!textAppear) { // first iteration
-			document.querySelector(':root').style.setProperty('--textHeightNew', groups.length*22 + 'px')
-			textElmt.classList.add("textAppear")
-		} else { // second iteration
-			document.querySelector(':root').style.setProperty('--textHeightCurrent', textElmt.clientHeight - 20)
-			textElmt.classList.remove("noPad")
-			textElmt.classList.remove("textAppear")
-			document.querySelector(':root').style.setProperty('--textHeightNew', groups.length*22 + 'px')
-			textElmt.classList.add("textTransition")
-		}
-	} else {
-		document.querySelector(':root').style.setProperty('--textHeightCurrent', textElmt.clientHeight - 20)
-		textElmt.classList.remove("textTransition")
-		document.querySelector(':root').style.setProperty('--textHeightNew', groups.length*22 + 'px')
-		textElmt.classList.add("textTransition")
-	}	
+  let names = document.getElementById("names").value.split("\n")
+	names.map((e) => {return e.trim()})
+	names = names.filter(e => e !== "");
+	let savedNames = names.map((t) => {return t.toUpperCase()});
 
-	var posList = [0.125, 0.375, 0.625, 0.875]
-	posList.forEach(pos => {
-		confetti({
-			angle: 270,
-			spread: 75,
-			particleCount: 50,
-			origin: {x: pos, y: -0.25},
-			startVelocity: 50,
+	let groups = [];
+	let outStr = "";
+	if(names.length != 0) {
+		shuffleArray(names);
+		let num = document.getElementById("number").value
+		num = Math.round(num);
+		if(num <= 0) {
+			alert("Number must be a positive integer!");
+			return;
+		}
+		let namesPerGroup = 0;
+		let numGroups = 0;
+		if(document.getElementById("sort").selectedIndex == 0) {
+			namesPerGroup = num;
+			numGroups = Math.floor(names.length/num);
+		} else {
+			namesPerGroup = Math.floor(names.length/num);
+			numGroups = num;
+		}
+		if(numGroups > names.length) {
+			alert("Number of groups cannot exceed number of names!");
+			return;
+		}
+		
+		for(i=0; i<numGroups; i++) {
+			groups.push([])
+			for(j=0; j<namesPerGroup; j++) {
+				groups[i].push(names.pop())
+			}
+		}
+		names.forEach((element, i) => {
+			groups[i].push(element)
+		})
+		outStr = "";
+		groups.forEach((element, i) => {
+			outStr += `Group ${i+1}: [${element.join(', ')}]\n`
 		});
-	});
+		if(savedNames.includes("BOSTON")) {
+			var img = document.createElement("IMG");
+			img.setAttribute("src", currentImgRoll.pop());
+			img.setAttribute("id", "boton");
+			if(img.style.width > img.style.height) img.style.width = "80%"; else img.style.height = "70%";
+			document.body.appendChild(img, document.body.children[1]);
+			if(currentImgRoll.length <= 3) {
+				currentImgRoll = [...imgs];
+				shuffleArray(currentImgRoll);
+			}
+		}
+	}
+
+	let newLineCount = groups.length;
+	let newHalfLineCount = ((newLineCount-oldLineCount)*0.5 + oldLineCount);
+	let oldHeight = oldLineCount*22 + "px"
+	let halfHeight = newHalfLineCount*22 + "px"
+	let newHeight = newLineCount*22 + "px"
+	let oldPadding = oldLineCount == 0 ? "0px" : "10px";
+	let newPadding = newLineCount == 0 ? "0px" : "10px";
+	console.log(oldPadding, newPadding);
+	let paddingChanged = oldPadding != newPadding;
+	let firstParams = [
+		{height: oldHeight, color: "white"},
+		{height: halfHeight, color: "transparent"},
+	]
+	let secondParams = [
+		{height: halfHeight, color: "transparent"},
+		{height: newHeight, color: "white"},
+	]
+	if(paddingChanged) {
+		firstParams[0].paddingTop = oldPadding;
+		firstParams[0].paddingBottom = oldPadding;
+		firstParams[1].paddingTop = "5px";
+		firstParams[1].paddingBottom = "5px";
+		secondParams[0].paddingTop = "5px";
+		secondParams[0].paddingBottom = "5px";
+		secondParams[1].paddingTop = newPadding;
+		secondParams[1].paddingBottom = newPadding;
+	}
+
+	textElmt.animate(firstParams,{
+		duration: 500,
+ 		iterations: 1,
+		direction:"normal",
+		fill: "forwards",
+		easing: "ease-in",
+	}).onfinish = (event) => {
+		textElmt.innerText = outStr;
+		textElmt.animate(secondParams,{
+			duration: 500,
+			iterations: 1,
+			direction:"normal",
+			fill: "forwards",
+			easing: "ease-out",
+		});
+	}
+	oldLineCount = newLineCount;
+
+	if(savedNames.length != 0) {
+		var posList = [0.125, 0.375, 0.625, 0.875]
+		posList.forEach(pos => {
+			confetti({
+				angle: 270,
+				spread: 75,
+				particleCount: 50,
+				origin: {x: pos, y: -0.25},
+				startVelocity: 50,
+				ticks: 1,
+				scalar: 5,
+				shapes: ["image"],
+				shapeOptions: {
+					image: [{
+						src: "confetti-black.png",
+						width: 96,
+						height: 22,
+					},
+					{
+						src: "confetti-blue.png",
+						width: 96,
+						height: 22,
+					},
+					{
+						src: "confetti-green.png",
+						width: 96,
+						height: 22,
+					},
+					{
+						src: "confetti-orange.png",
+						width: 96,
+						height: 22,
+					},
+					{
+						src: "confett.purple.png",
+						width: 96,
+						height: 22,
+					},
+					{
+						src: "confetti-red.png",
+						width: 96,
+						height: 22,
+					},
+					{
+						src: "confetti-yellow.png",
+						width: 96,
+						height: 22,
+					},
+					]
+				}
+			});
+		});
+	}
 }
 </script>
