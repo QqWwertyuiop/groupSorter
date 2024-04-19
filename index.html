@@ -25,7 +25,7 @@
 			padding: 0px;
 			margin: 0px;
 			border: 0px;
-			overflow-y: hidden;
+			overflow: hidden;
 		}
 
 		label {
@@ -74,6 +74,8 @@
 		}
 
 		#main {
+			position: relative;
+			top: 36px;
 			margin: 12px;
 			padding: 24px;
 			height: calc(100% - 106px);
@@ -110,11 +112,17 @@
 			background-color: transparent;
 		}
 
-		#rollerText {
+		.rollerText {
 			margin: 0px;
-			padding: 12px 0px 0px 0px;
+			padding: 0px;
 			overflow: hidden;
 			height: 22px;
+			width: fit-content;
+			position: fixed;
+			background: transparent;
+			top: 12px;
+			text-overflow: clip;
+			text-wrap: nowrap;
 		}
 
 		@keyframes fadeAway {
@@ -122,7 +130,7 @@
 			to {opacity: 0.0;}
 		}
 
-		#boton {
+		.photographical {
 			position: fixed;
 			top: 0px;
 			bottom: 0px;
@@ -144,12 +152,10 @@
 	</style>
 	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
 </head>
-
 <body>
-	<p id="rollerText"></p>
 	<div id="main">
 		<label for="names"><p>GroupSorter</p></label>
-		<p id="text"></p>
+		<p id="text">Test Roll</p>
 		<textarea id="names" name="names" style="flex-grow: 1;" placeholder="&#10;Enter the names to be picked from here." required></textarea>
 		<div style="width: fit-content; padding-left: 8px; background-color: rgb(96, 96, 96); align-content: center;">
 		<select name="sort" id="sort" required>
@@ -184,18 +190,70 @@ function randomInRange(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-const imgs = ["majesty.png", "majesty.png", "majesty.png", "nerd.png", "empty.jpg", "even_higher_blood_pressure.jpg", "high_blood_pressure.png", "professional.webp", "shock.png", "slep.heic", "terrorized.heic"];
-var currentImgRoll = [...imgs];
-shuffleArray(currentImgRoll);
-var currentRoll = "";
-var rollIncrement = 0;
+const botonImgs = ["confused.png", "young.png", "majesty.png", "concern.png", "bridal.jpg", "rolling.jpg", "goggle.jpg", "stuffed.jpg", "brow.jpg", "mew.jpg", "less_shocked.jpg", "nerd.png", "empty.jpg", "even_higher_blood_pressure.jpg", "high_blood_pressure.png", "professional.webp", "shock.png", "slep.heic", "terrorized.heic"];
+var currentBotonImgRoll = [...botonImgs];
+shuffleArray(currentBotonImgRoll);
+currentBotonImgRoll.push("confused.png", "young.png")
+
+const acornImgs = ["nebraska.jpg", "panther.jpg", "canine.jpg"];
+var currentAcornImgRoll = [...acornImgs];
+shuffleArray(currentAcornImgRoll);
+
+rollsTemp = [
+	"BREAKING: In a shocking change of fate, AP Calculus quiz averages jumped by a reported 7-9% up to a historic high of 56%.",
+	"Lead scientists remain committed to finding and cataloging a so-called 'Daily Schedule' despite research setbacks.",
+	"'My heart felt a little funny.': The story of one AP Calculus student's struggle with alternative methods of caffeine intake.",
+	"'I'm never doing this again.': The story of one AP Calculus student's adventures with snorting melatonin.",
+	"BREAKING: Tony Record worksheets consistently rated most colorful in nationwide poll.",
+	"'How do I do this again?'; Shocking new study sheds light on unprecedented levels of confusion among calculus students.",
+	"「我該如何再做一次？」;令人震驚的新研究揭示了微積分學生前所未有的困惑程度。",
+	"'I wasn't here that day.': The heartbreaking story of one AP Calculus student's struggle against checking a so-called 'Daily Schedule'."
+]
+//shuffleArray(rollsTemp);
+const rollPadding = 96; // measured in px
+const rolls = [...rollsTemp]
+var rollElements = []
+var rollPositions = []
+delete rollsTemp;
+var currentRollIndex = -1;
+
+function createRoll() {
+	currentRollIndex++;
+	if(currentRollIndex == rolls.length) currentRollIndex = 0;
+	let currentRoll = rolls[currentRollIndex];
+	let element = document.createElement("P");
+	element.classList.add("rollerText");
+	element.id = "RT" + rollElements.length;
+	element.innerText = currentRoll;
+	element.style.left = document.body.clientWidth + "px";
+	document.body.appendChild(element);
+	rollElements.push(element);
+	rollPositions.push(document.body.clientWidth);
+};
+
 const roller = setInterval(() => {
+	rollElements.forEach((roll, i) => {
+		let pos = rollPositions[i];
+		if(pos + 1 < -roll.clientWidth) {
+			roll.remove();
+			rollElements.splice(i, 1);
+			rollPositions.splice(i, 1);
+			return;
+		} 
+		if(pos == document.body.clientWidth - (roll.clientWidth + rollPadding)) {
+			createRoll();
+		}
+		pos--;
+		roll.style.left = pos + "px";
+		rollPositions[i] = pos;
+	})
+}, 10)
 
-}, 100);
+createRoll();
 
-var textarea = document.getElementById("names");
-var textElmt = document.getElementById("text");
-var rootStyle = document.querySelector(':root');
+const textarea = document.getElementById("names");
+const textElmt = document.getElementById("text");
+const rootStyle = document.querySelector(':root');
 var oldLineCount = 0;
 
 function sort() {
@@ -242,14 +300,26 @@ function sort() {
 			outStr += `Group ${i+1}: [${element.join(', ')}]\n`
 		});
 		if(savedNames.includes("BOSTON")) {
-			var img = document.createElement("IMG");
-			img.setAttribute("src", currentImgRoll.pop());
+			let img = document.createElement("IMG");
+			img.setAttribute("src", currentBotonImgRoll.pop());
 			img.setAttribute("id", "boton");
+			img.classList.add("photographical")
 			if(img.style.width > img.style.height) img.style.width = "80%"; else img.style.height = "70%";
 			document.body.appendChild(img, document.body.children[1]);
-			if(currentImgRoll.length <= 3) {
-				currentImgRoll = [...imgs];
-				shuffleArray(currentImgRoll);
+			if(currentBotonImgRoll.length == 0) {
+				currentBotonImgRoll = [...botonImgs];
+				shuffleArray(currentBotonImgRoll);
+			}
+		} else if(savedNames.includes("AARON") || savedNames.includes("AARON + FERAL")) {
+			let img = document.createElement("IMG");
+			img.setAttribute("src", currentAcornImgRoll.pop());
+			img.setAttribute("id", "acorn");
+			img.classList.add("photographical")
+			if(img.style.width > img.style.height) img.style.width = "80%"; else img.style.height = "70%";
+			document.body.appendChild(img, document.body.children[1]);
+			if(currentAcornImgRoll.length == 0) {
+				currentAcornImgRoll = [...acornImgs];
+				shuffleArray(currentAcornImgRoll);
 			}
 		}
 	}
@@ -261,7 +331,6 @@ function sort() {
 	let newHeight = newLineCount*22 + "px"
 	let oldPadding = oldLineCount == 0 ? "0px" : "10px";
 	let newPadding = newLineCount == 0 ? "0px" : "10px";
-	console.log(oldPadding, newPadding);
 	let paddingChanged = oldPadding != newPadding;
 	let firstParams = [
 		{height: oldHeight, color: "white"},
