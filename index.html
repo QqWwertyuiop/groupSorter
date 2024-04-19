@@ -238,6 +238,7 @@ const roller = setInterval(() => {
 			roll.remove();
 			rollElements.splice(i, 1);
 			rollPositions.splice(i, 1);
+			if(rollElements.length == 0) {console.log("Roll Creation Failure: Restarting Roll"); createRoll();} 
 			return;
 		} 
 		if(pos == document.body.clientWidth - (roll.clientWidth + rollPadding)) {
