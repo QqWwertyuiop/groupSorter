@@ -190,14 +190,21 @@ function randomInRange(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+function preloadImg(imgName) {
+	let tempImg = new Image();
+	tempImg.src = imgName;
+}
+
 const botonImgs = ["confused.png", "young.png", "majesty.png", "concern.png", "bridal.jpg", "rolling.jpg", "goggle.jpg", "stuffed.jpg", "brow.jpg", "mew.jpg", "less_shocked.jpg", "nerd.png", "empty.jpg", "even_higher_blood_pressure.jpg", "high_blood_pressure.png", "professional.webp", "shock.png", "slep.heic", "terrorized.heic"];
 var currentBotonImgRoll = [...botonImgs];
 shuffleArray(currentBotonImgRoll);
 currentBotonImgRoll.push("confused.png", "young.png")
+botonImgs.forEach(preloadImg)
 
 const acornImgs = ["nebraska.jpg", "panther.jpg", "canine.jpg"];
 var currentAcornImgRoll = [...acornImgs];
 shuffleArray(currentAcornImgRoll);
+acornImgs.forEach(preloadImg)
 
 rollsTemp = [
 	"BREAKING: In a shocking change of fate, AP Calculus quiz averages jumped by a reported 7-9% up to a historic high of 56%.",
