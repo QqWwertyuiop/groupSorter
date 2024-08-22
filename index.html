@@ -4,13 +4,22 @@
 	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,600;1,6..12,600&display=swap" rel="stylesheet">
 	
 	<style>
+		:root {
+			--text: #FFFFFF;
+			--text2: #C0C0C0;
+			--color1: #404040;
+			--color2: #606060;
+			--color3: #808080;
+		}
+
 		* {
-			color: rgb(255, 255, 255);
-			background-color:rgb(96, 96, 96);
+			color: var(--text);
+			background-color: var(--color2);
 			font-family: "Nunito Sans", sans-serif;
 			text-align: center;
 			border: 4px;
 			border-radius: 8px;
+			transition: color 0.6s, background-color 0.6s;
 		}
 
 		:root {
@@ -58,10 +67,11 @@
 
 		img {
 			background: transparent;
+			transition: src 1s;
 		}
 		
 		div {
-			background-color:rgb(64, 64, 64);
+			background-color:var(--color1);
 		}
 
 		a {
@@ -70,7 +80,7 @@
 		}
 
 		.hoverable:hover {
-			background-color: rgb(128, 128, 128);
+			background-color: var(--color3);
 		}
 
 		#main {
@@ -105,7 +115,7 @@
 		}
 
 		::placeholder {
-			color:lightgray;
+			color: var(--text2);
 		}
 
 		#confetti {
@@ -157,7 +167,7 @@
 		<label for="names"><p>GroupSorter</p></label>
 		<p id="text">Test Roll</p>
 		<textarea id="names" name="names" style="flex-grow: 1;" placeholder="&#10;Enter the names to be picked from here." required></textarea>
-		<div style="width: fit-content; padding-left: 8px; background-color: rgb(96, 96, 96); align-content: center;">
+		<div style="width: fit-content; padding-left: 8px; background-color: var(--color2); align-content: center;">
 		<select name="sort" id="sort" required>
 			<option value="0"> Names per Group </option>
 			<option value="1"> Total Groups </option>
@@ -166,9 +176,12 @@
 		</div>
 		<div id="footer">
 			<a style="height: 48px; background: transparent; float: left;" title="Visit on GitHub" href="https://github.com/QqWwertyuiop/groupSorter" aria-label="View source on Github">
-				<img src="github-mark-white.png" height="36px" style="padding: 6px;">
+				<img id="github" src="github-mark-white.png" height="36px" style="padding: 6px;">
 			</a>
-			<a class="hoverable" style="height: 24px; margin: 6px; padding: 6px; float: left;" href="https://qqwwertyuiop.github.io/groupSorter/legacy.html">Legacy Version</a>
+			<a class="hoverable" style="height: 24px; margin: 6px; padding: 6px; float: left" href="https://qqwwertyuiop.github.io/groupSorter/legacy.html">Legacy</a>
+			<a id="colorSelector"style="height: 48px; background: transparent; float: right;" title="Light Mode" aria-label="Switch color mode between light and dark" onclick="switchColorMode()">
+				<img id="colorMode" src="light-mode.png" height="42px" style="padding: 0px;">
+			</a>
 			<input class="hoverable" style="font-size: x-large; height: 36px; margin: 6px; padding-left: 6px; padding-right: 6px; position: fixed; right: calc(50% - 48px);" type="button" value="Submit" onclick="sort()">
 		</div>
 	</div>
@@ -342,12 +355,12 @@ function sort() {
 	let newPadding = newLineCount == 0 ? "0px" : "10px";
 	let paddingChanged = oldPadding != newPadding;
 	let firstParams = [
-		{height: oldHeight, color: "white"},
+		{height: oldHeight, color: "var(--text)"},
 		{height: halfHeight, color: "transparent"},
 	]
 	let secondParams = [
 		{height: halfHeight, color: "transparent"},
-		{height: newHeight, color: "white"},
+		{height: newHeight, color: "var(--text)"},
 	]
 	if(paddingChanged) {
 		firstParams[0].paddingTop = oldPadding;
@@ -457,4 +470,31 @@ function sort() {
 		});
 	}
 }
+
+var colorMode = 0;
+const colorModeMax = 1;
+const colors = [
+	["#FFFFFF", "#C0C0C0", "#404040", "#606060", "808080", "github-mark-white.png", "light-mode.png"],
+	["#303030", "#606060", "#DDDDDD", "#F0F0F0", "#D0D0D0", "github-mark.png", "dark-mode.png"]
+];
+
+function colorModeUpdate() {
+	var color = colors[colorMode];
+	console.log(color)
+	rootStyle.style.setProperty('--text', color[0]);
+	rootStyle.style.setProperty('--text2', color[1]);
+	rootStyle.style.setProperty('--color1', color[2]);
+	rootStyle.style.setProperty('--color2', color[3]);
+	rootStyle.style.setProperty('--color3', color[4]);
+	document.getElementById("github").src = color[5];
+	document.getElementById("colorMode").src = color[6];
+}
+
+function switchColorMode() {
+	colorMode += 1;
+	if(colorMode > colorModeMax) colorMode = 0;
+	console.log(colorMode)
+	colorModeUpdate()
+}
+
 </script>
