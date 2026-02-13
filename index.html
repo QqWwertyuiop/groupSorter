@@ -220,6 +220,8 @@ shuffleArray(currentAcornImgRoll);
 currentAcornImgRoll.push("davis_young.jpg");
 acornImgs.forEach(preloadImg)
 
+preloadImg("ian.jpg")
+
 rollsTemp = [
 	"BREAKING: In a shocking change of fate, AP Calculus quiz averages jumped by a reported 7-9% up to a historic high of 56%.",
 	"Lead scientists remain committed to finding and cataloging a so-called 'Daily Schedule' despite research setbacks.",
@@ -343,6 +345,13 @@ function sort() {
 				currentAcornImgRoll = [...acornImgs];
 				shuffleArray(currentAcornImgRoll);
 			}
+		} else if(savedNames.includes("IAN") || Math.floor(Math.random() * 50)) {
+			let img = document.createElement("IMG");
+			img.setAttribute("src", "ian.jpg");
+			img.setAttribute("id", "ian");
+			img.classList.add("photographical")
+			if(img.style.width > img.style.height) img.style.width = "80%"; else img.style.height = "70%";
+			document.body.appendChild(img, document.body.children[1]);
 		}
 	}
 
